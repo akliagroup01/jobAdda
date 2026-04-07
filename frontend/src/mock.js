@@ -16,7 +16,9 @@ export const mockJobs = [
     postedDate: '2 days ago',
     applicants: 45,
     companyLogo: 'https://images.unsplash.com/photo-1549923746-c502d488b3ea?w=100&h=100&fit=crop',
-    featured: true
+    featured: true,
+    whatsappNumber: '919876543210',
+    contactPerson: 'HR Manager'
   },
   {
     id: '2',
@@ -33,7 +35,9 @@ export const mockJobs = [
     postedDate: '1 day ago',
     applicants: 32,
     companyLogo: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=100&h=100&fit=crop',
-    featured: true
+    featured: true,
+    whatsappNumber: '919988776655',
+    contactPerson: 'Design Lead'
   },
   {
     id: '3',
@@ -50,7 +54,9 @@ export const mockJobs = [
     postedDate: '3 days ago',
     applicants: 28,
     companyLogo: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=100&h=100&fit=crop',
-    featured: false
+    featured: false,
+    whatsappNumber: '919123456789',
+    contactPerson: 'HR Team'
   },
   {
     id: '4',
@@ -67,7 +73,9 @@ export const mockJobs = [
     postedDate: '5 days ago',
     applicants: 52,
     companyLogo: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=100&h=100&fit=crop',
-    featured: true
+    featured: true,
+    whatsappNumber: '919887766554',
+    contactPerson: 'CEO'
   },
   {
     id: '5',
@@ -84,7 +92,9 @@ export const mockJobs = [
     postedDate: '1 week ago',
     applicants: 38,
     companyLogo: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=100&h=100&fit=crop',
-    featured: false
+    featured: false,
+    whatsappNumber: '919765432109',
+    contactPerson: 'DevOps Lead'
   },
   {
     id: '6',
@@ -101,7 +111,9 @@ export const mockJobs = [
     postedDate: '4 days ago',
     applicants: 67,
     companyLogo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100&h=100&fit=crop',
-    featured: false
+    featured: false,
+    whatsappNumber: '919876123450',
+    contactPerson: 'Tech Lead'
   },
   {
     id: '7',
@@ -118,7 +130,9 @@ export const mockJobs = [
     postedDate: '6 days ago',
     applicants: 41,
     companyLogo: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=100&h=100&fit=crop',
-    featured: false
+    featured: false,
+    whatsappNumber: '919998887776',
+    contactPerson: 'Business Head'
   },
   {
     id: '8',
@@ -135,7 +149,9 @@ export const mockJobs = [
     postedDate: '3 days ago',
     applicants: 29,
     companyLogo: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop',
-    featured: false
+    featured: false,
+    whatsappNumber: '919123987654',
+    contactPerson: 'Mobile Team Lead'
   }
 ];
 

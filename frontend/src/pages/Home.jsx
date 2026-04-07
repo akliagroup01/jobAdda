@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, Briefcase, TrendingUp, Building2, Users, Clock, Star } from 'lucide-react';
+import { Search, MapPin, Briefcase, TrendingUp, Building2, Users, Clock, Star, MessageCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card } from '../components/ui/card';
@@ -168,9 +168,17 @@ const Home = () => {
                         </h3>
                         <p className="text-gray-600">{job.company}</p>
                       </div>
-                      <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-                        Featured
-                      </Badge>
+                      <div className="flex gap-1 flex-col">
+                        <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 text-xs">
+                          Featured
+                        </Badge>
+                        {job.whatsappNumber && (
+                          <Badge className="bg-green-100 text-green-800 hover:bg-green-100 text-xs">
+                            <MessageCircle className="h-3 w-3 mr-1" />
+                            WhatsApp
+                          </Badge>
+                        )}
+                      </div>
                     </div>
                     <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
                       <div className="flex items-center gap-1">

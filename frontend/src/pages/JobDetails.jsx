@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Briefcase, Clock, Building2, Users, DollarSign, Share2, Bookmark, ChevronLeft } from 'lucide-react';
+import { MapPin, Briefcase, Clock, Building2, Users, DollarSign, Share2, Bookmark, ChevronLeft, MessageCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
@@ -40,6 +40,25 @@ const JobDetails = () => {
     toast({
       title: 'Application submitted',
       description: 'Your application has been sent to the employer',
+    });
+  };
+
+  const handleWhatsAppApply = () => {
+    const message = `Hi, I'm interested in applying for the *${job.title}* position at ${job.company}. I found this opportunity on JobPortal.
+
+*Job Details:*
+- Position: ${job.title}
+- Location: ${job.location}
+- Experience: ${job.experience}
+
+I would like to discuss this opportunity further. Thank you!`;
+    
+    const whatsappUrl = `https://wa.me/${job.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    
+    toast({
+      title: 'Opening WhatsApp',
+      description: 'You will be redirected to WhatsApp to complete your application',
     });
   };
 
@@ -91,12 +110,20 @@ const JobDetails = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
+                <Button 
+                  onClick={handleWhatsAppApply}
+                  className="bg-green-600 hover:bg-green-700 h-12 px-8 text-base font-semibold"
+                >
+                  <MessageCircle className="h-5 w-5 mr-2" />
+                  Apply via WhatsApp
+                </Button>
                 <Button 
                   onClick={handleApply}
-                  className="bg-blue-600 hover:bg-blue-700 h-12 px-8 text-base font-semibold"
+                  variant="outline"
+                  className="h-12 px-8 text-base font-semibold border-blue-600 text-blue-600 hover:bg-blue-50"
                 >
-                  Apply Now
+                  Apply Directly
                 </Button>
                 <Button
                   variant="outline"
@@ -220,10 +247,19 @@ const JobDetails = () => {
               <Separator className="my-6" />
 
               <Button
-                onClick={handleApply}
-                className="w-full bg-blue-600 hover:bg-blue-700 h-12 font-semibold"
+                onClick={handleWhatsAppApply}
+                className="w-full bg-green-600 hover:bg-green-700 h-12 font-semibold mb-3"
               >
-                Apply Now
+                <MessageCircle className="h-5 w-5 mr-2" />
+                Apply via WhatsApp
+              </Button>
+              
+              <Button
+                onClick={handleApply}
+                variant="outline"
+                className="w-full h-12 font-semibold border-blue-600 text-blue-600 hover:bg-blue-50"
+              >
+                Apply Directly
               </Button>
             </Card>
 
@@ -243,6 +279,30 @@ const JobDetails = () => {
               </p>
               <Button variant="outline" className="w-full border-blue-600 text-blue-600 hover:bg-blue-50">
                 View Company Profile
+              </Button>
+            </Card>
+
+            {/* Contact Information */}
+            <Card className="p-6 bg-green-50 border-green-200">
+              <div className="flex items-start gap-3 mb-3">
+                <div className="bg-green-600 p-2 rounded-lg">
+                  <MessageCircle className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900 mb-1">Quick Apply</h3>
+                  <p className="text-sm text-gray-600">Connect instantly via WhatsApp</p>
+                </div>
+              </div>
+              <div className="text-sm text-gray-700 mb-3">
+                <p className="mb-1"><strong>Contact:</strong> {job.contactPerson}</p>
+                <p className="mb-3"><strong>WhatsApp:</strong> +{job.whatsappNumber}</p>
+              </div>
+              <Button
+                onClick={handleWhatsAppApply}
+                className="w-full bg-green-600 hover:bg-green-700 h-10 font-semibold"
+              >
+                <MessageCircle className="h-4 w-4 mr-2" />
+                Chat on WhatsApp
               </Button>
             </Card>
           </div>

@@ -22,7 +22,9 @@ const EmployerDashboard = () => {
     type: 'Full-time',
     salary: '',
     description: '',
-    requirements: ''
+    requirements: '',
+    whatsappNumber: '',
+    contactPerson: ''
   });
 
   const handlePostJob = (e) => {
@@ -38,7 +40,9 @@ const EmployerDashboard = () => {
       type: 'Full-time',
       salary: '',
       description: '',
-      requirements: ''
+      requirements: '',
+      whatsappNumber: '',
+      contactPerson: ''
     });
   };
 
@@ -111,6 +115,31 @@ const EmployerDashboard = () => {
                     required
                     className="mt-1"
                   />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="contactPerson">Contact Person</Label>
+                    <Input
+                      id="contactPerson"
+                      placeholder="e.g. HR Manager"
+                      value={newJob.contactPerson}
+                      onChange={(e) => setNewJob({ ...newJob, contactPerson: e.target.value })}
+                      required
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="whatsappNumber">WhatsApp Number (with country code)</Label>
+                    <Input
+                      id="whatsappNumber"
+                      placeholder="e.g. 919876543210"
+                      value={newJob.whatsappNumber}
+                      onChange={(e) => setNewJob({ ...newJob, whatsappNumber: e.target.value })}
+                      required
+                      className="mt-1"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Job seekers will contact you via WhatsApp</p>
+                  </div>
                 </div>
                 <div>
                   <Label htmlFor="description">Job Description</Label>

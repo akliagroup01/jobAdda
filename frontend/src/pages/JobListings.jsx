@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Search, MapPin, Briefcase, Clock, Building2, Filter, X, ChevronDown } from 'lucide-react';
+import { Search, MapPin, Briefcase, Clock, Building2, Filter, X, ChevronDown, MessageCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card } from '../components/ui/card';
@@ -198,11 +198,19 @@ const JobListings = () => {
                           </h3>
                           <p className="text-gray-600 font-medium">{job.company}</p>
                         </div>
-                        {job.featured && (
-                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-                            Featured
-                          </Badge>
-                        )}
+                        <div className="flex gap-2">
+                          {job.featured && (
+                            <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
+                              Featured
+                            </Badge>
+                          )}
+                          {job.whatsappNumber && (
+                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
+                              <MessageCircle className="h-3 w-3 mr-1" />
+                              WhatsApp
+                            </Badge>
+                          )}
+                        </div>
                       </div>
                       
                       <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-3">
