@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Briefcase, User, Menu, X } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
@@ -28,18 +34,21 @@ const Navbar = () => {
             <Link to="/companies" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Companies
             </Link>
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <>
                 <Link to="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
                   Dashboard
                 </Link>
-                <Button
-                  variant="ghost"
-                  onClick={() => setIsLoggedIn(false)}
-                  className="text-gray-700 hover:text-blue-600"
-                >
-                  Sign Out
-                </Button>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-gray-600">{user?.name}</span>
+                  <Button
+                    variant="ghost"
+                    onClick={handleLogout}
+                    className="text-gray-700 hover:text-blue-600"
+                  >
+                    Sign Out
+                  </Button>
+                </div>
               </>
             ) : (
               <>
@@ -55,11 +64,13 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <Link to="/employer">
-              <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-                Post a Job
-              </Button>
-            </Link>
+            {(!isAuthenticated || user?.user_type === 'employer') && (
+              <Link to="/employer">
+                <Button variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-50">
+                  Post a Job
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -88,7 +99,7 @@ const Navbar = () => {
             >
               Companies
             </Link>
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <>
                 <Link
                   to="/dashboard"
@@ -100,7 +111,7 @@ const Navbar = () => {
                 <button
                   className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                   onClick={() => {
-                    setIsLoggedIn(false);
+                    handleLogout();
                     setIsMenuOpen(false);
                   }}
                 >
@@ -125,13 +136,15 @@ const Navbar = () => {
                 </Link>
               </>
             )}
-            <Link
-              to="/employer"
-              className="block px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors text-center"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Post a Job
-            </Link>
+            {(!isAuthenticated || user?.user_type === 'employer') && (
+              <Link
+                to="/employer"
+                className="block px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors text-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Post a Job
+              </Link>
+            )}
           </div>
         )}
       </div>

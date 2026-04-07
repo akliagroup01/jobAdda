@@ -7,11 +7,14 @@ import { Card } from '../components/ui/card';
 import { Label } from '../components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { useToast } from '../hooks/use-toast';
+import { useAuth } from '../contexts/AuthContext';
 
 const Signup = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { signup } = useAuth();
   const [userType, setUserType] = useState('jobseeker');
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,16 +24,43 @@ const Signup = () => {
     companyName: ''
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock signup
-    toast({
-      title: 'Account created successfully',
-      description: 'Welcome to JobPortal! You can now start applying for jobs.',
-    });
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 1000);
+    setLoading(true);
+    
+    try {
+      const signupData = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        location: formData.location,
+        user_type: userType,
+        ...(userType === 'employer' ? { company_name: formData.companyName } : {})
+      };
+
+      const user = await signup(signupData);
+      
+      toast({
+        title: 'Account created successfully',
+        description: 'Welcome to JobPortal! You can now start applying for jobs.',
+      });
+      
+      // Redirect based on user type
+      if (user.user_type === 'employer') {
+        navigate('/employer');
+      } else {
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      toast({
+        title: 'Signup failed',
+        description: error.response?.data?.detail || 'Failed to create account. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -160,12 +190,17 @@ const Signup = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  minLength={6}
                 />
               </div>
             </div>
 
-            <Button type="submit" className="w-full h-12 bg-blue-600 hover:bg-blue-700 font-semibold">
-              Create Account
+            <Button 
+              type="submit" 
+              className="w-full h-12 bg-blue-600 hover:bg-blue-700 font-semibold"
+              disabled={loading}
+            >
+              {loading ? 'Creating Account...' : 'Create Account'}
             </Button>
           </form>
 

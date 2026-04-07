@@ -1,22 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Briefcase, TrendingUp, Building2, Users, Clock, Star, MessageCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Card } from '../components/ui/card';
 import { Badge } from '../components/ui/badge';
-import { mockJobs, mockCategories } from '../mock';
+import { jobsAPI, statsAPI } from '../api';
 
 const Home = () => {
   const navigate = useNavigate();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchLocation, setSearchLocation] = useState('');
+  const [featuredJobs, setFeaturedJobs] = useState([]);
+  const [stats, setStats] = useState({
+    active_jobs: 10000,
+    total_companies: 5000,
+    total_candidates: 50000,
+    new_jobs_today: 2000
+  });
+  const [loading, setLoading] = useState(true);
+
+  const [loading, setLoading] = useState(true);
+
+  const mockCategories = [
+    { name: 'IT & Software', count: 2450, icon: 'Code' },
+    { name: 'Design', count: 567, icon: 'Palette' },
+    { name: 'Marketing', count: 892, icon: 'TrendingUp' },
+    { name: 'Sales', count: 1234, icon: 'ShoppingCart' },
+    { name: 'Finance', count: 678, icon: 'DollarSign' },
+    { name: 'Healthcare', count: 445, icon: 'Heart' },
+    { name: 'Education', count: 334, icon: 'BookOpen' },
+    { name: 'Manufacturing', count: 556, icon: 'Factory' }
+  ];
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const [jobsResponse, statsResponse] = await Promise.all([
+        jobsAPI.getJobs({ featured: true, per_page: 4 }),
+        statsAPI.getOverview()
+      ]);
+      
+      setFeaturedJobs(jobsResponse.data.jobs);
+      setStats(statsResponse.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSearch = () => {
     navigate(`/jobs?keyword=${searchKeyword}&location=${searchLocation}`);
   };
-
-  const featuredJobs = mockJobs.filter(job => job.featured).slice(0, 4);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -70,22 +109,22 @@ const Home = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 max-w-4xl mx-auto">
             <div className="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
               <Briefcase className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">10,000+</div>
+              <div className="text-2xl font-bold text-gray-900">{stats.active_jobs.toLocaleString()}+</div>
               <div className="text-sm text-gray-600">Active Jobs</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
               <Building2 className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">5,000+</div>
+              <div className="text-2xl font-bold text-gray-900">{stats.total_companies.toLocaleString()}+</div>
               <div className="text-sm text-gray-600">Companies</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
               <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">50,000+</div>
+              <div className="text-2xl font-bold text-gray-900">{stats.total_candidates.toLocaleString()}+</div>
               <div className="text-sm text-gray-600">Candidates</div>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm text-center hover:shadow-md transition-shadow">
               <TrendingUp className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-gray-900">2,000+</div>
+              <div className="text-2xl font-bold text-gray-900">{stats.new_jobs_today.toLocaleString()}+</div>
               <div className="text-sm text-gray-600">New Jobs Daily</div>
             </div>
           </div>
@@ -148,60 +187,70 @@ const Home = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {featuredJobs.map((job) => (
-              <Card
-                key={job.id}
-                className="p-6 hover:shadow-xl transition-all cursor-pointer border hover:border-blue-300 group"
-                onClick={() => navigate(`/jobs/${job.id}`)}
-              >
-                <div className="flex items-start gap-4">
-                  <img
-                    src={job.companyLogo}
-                    alt={job.company}
-                    className="w-16 h-16 rounded-lg object-cover"
-                  />
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                          {job.title}
-                        </h3>
-                        <p className="text-gray-600">{job.company}</p>
-                      </div>
-                      <div className="flex gap-1 flex-col">
-                        <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 text-xs">
-                          Featured
-                        </Badge>
-                        {job.whatsappNumber && (
-                          <Badge className="bg-green-100 text-green-800 hover:bg-green-100 text-xs">
-                            <MessageCircle className="h-3 w-3 mr-1" />
-                            WhatsApp
+            {loading ? (
+              <div className="col-span-2 text-center py-12">
+                <p className="text-gray-600">Loading jobs...</p>
+              </div>
+            ) : featuredJobs.length === 0 ? (
+              <div className="col-span-2 text-center py-12">
+                <p className="text-gray-600">No featured jobs available</p>
+              </div>
+            ) : (
+              featuredJobs.map((job) => (
+                <Card
+                  key={job.id || job._id}
+                  className="p-6 hover:shadow-xl transition-all cursor-pointer border hover:border-blue-300 group"
+                  onClick={() => navigate(`/jobs/${job.id || job._id}`)}
+                >
+                  <div className="flex items-start gap-4">
+                    <img
+                      src={job.company_logo || job.companyLogo}
+                      alt={job.company}
+                      className="w-16 h-16 rounded-lg object-cover"
+                    />
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-2">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                            {job.title}
+                          </h3>
+                          <p className="text-gray-600">{job.company}</p>
+                        </div>
+                        <div className="flex gap-1 flex-col">
+                          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100 text-xs">
+                            Featured
                           </Badge>
-                        )}
+                          {job.whatsapp_number && (
+                            <Badge className="bg-green-100 text-green-800 hover:bg-green-100 text-xs">
+                              <MessageCircle className="h-3 w-3 mr-1" />
+                              WhatsApp
+                            </Badge>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {job.location}
+                      <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4" />
+                          {job.location}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Briefcase className="h-4 w-4" />
+                          {job.type}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-4 w-4" />
+                          {job.postedDate || 'Recently posted'}
+                        </div>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Briefcase className="h-4 w-4" />
-                        {job.type}
+                      <div className="flex items-center justify-between">
+                        <span className="text-lg font-semibold text-blue-600">{job.salary}</span>
+                        <span className="text-sm text-gray-500">{job.applicants_count || job.applicants || 0} applicants</span>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" />
-                        {job.postedDate}
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-semibold text-blue-600">{job.salary}</span>
-                      <span className="text-sm text-gray-500">{job.applicants} applicants</span>
                     </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))
+            )}
           </div>
 
           <div className="text-center mt-8 md:hidden">
