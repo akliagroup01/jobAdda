@@ -20,8 +20,6 @@ const Home = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  const [loading, setLoading] = useState(true);
-
   const mockCategories = [
     { name: 'IT & Software', count: 2450, icon: 'Code' },
     { name: 'Design', count: 567, icon: 'Palette' },
