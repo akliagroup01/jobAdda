@@ -13,7 +13,7 @@ const Footer = () => {
               <div className="bg-blue-600 p-2 rounded-lg">
                 <Briefcase className="h-6 w-6 text-white" />
               </div>
-              <span className="text-2xl font-bold text-white">JobPortal</span>
+              <span className="text-2xl font-bold text-white">Jobadda</span>
             </div>
             <p className="text-sm text-gray-400">
               Connecting talented professionals with their dream careers.
@@ -117,7 +117,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2024 JobPortal. All rights reserved.</p>
+          <p>&copy; 2024 Jobadda. All rights reserved.</p>
         </div>
       </div>
     </footer>

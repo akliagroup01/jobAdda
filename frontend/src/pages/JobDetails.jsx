@@ -44,7 +44,7 @@ const JobDetails = () => {
   };
 
   const handleWhatsAppApply = () => {
-    const message = `Hi, I'm interested in applying for the *${job.title}* position at ${job.company}. I found this opportunity on JobPortal.
+    const message = `Hi, I'm interested in applying for the *${job.title}* position at ${job.company}. I found this opportunity on Jobadda.
 
 *Job Details:*
 - Position: ${job.title}

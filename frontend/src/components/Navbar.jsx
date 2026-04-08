@@ -23,7 +23,7 @@ const Navbar = () => {
             <div className="bg-blue-600 p-2 rounded-lg group-hover:bg-blue-700 transition-colors">
               <Briefcase className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">JobPortal</span>
+            <span className="text-2xl font-bold text-gray-900">Jobadda</span>
           </Link>
 
           {/* Desktop Navigation */}

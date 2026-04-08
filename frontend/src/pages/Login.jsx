@@ -28,7 +28,7 @@ const Login = () => {
       const user = await login(formData.email, formData.password);
       toast({
         title: 'Login successful',
-        description: 'Welcome back to JobPortal!',
+        description: 'Welcome back to Jobadda!',
       });
       
       // Redirect based on user type
@@ -64,7 +64,7 @@ const Login = () => {
             <div className="bg-blue-600 p-2 rounded-lg">
               <Briefcase className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">JobPortal</span>
+            <span className="text-2xl font-bold text-gray-900">Jobadda</span>
           </Link>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
           <p className="text-gray-600">Sign in to continue to your account</p>

@@ -43,7 +43,7 @@ const Signup = () => {
       
       toast({
         title: 'Account created successfully',
-        description: 'Welcome to JobPortal! You can now start applying for jobs.',
+        description: 'Welcome to Jobadda! You can now start applying for jobs.',
       });
       
       // Redirect based on user type
@@ -75,7 +75,7 @@ const Signup = () => {
             <div className="bg-blue-600 p-2 rounded-lg">
               <Briefcase className="h-6 w-6 text-white" />
             </div>
-            <span className="text-2xl font-bold text-gray-900">JobPortal</span>
+            <span className="text-2xl font-bold text-gray-900">Jobadda</span>
           </Link>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Create your account</h1>
           <p className="text-gray-600">Start your journey to find your dream job</p>
